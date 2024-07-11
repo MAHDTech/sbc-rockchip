@@ -33,8 +33,10 @@ dependencies:
     to: /rootfs/artifacts/arm64/dtb/rockchip/rk3399-nanopi-r4s.dtb
   - image: "{{ .BUILD_ARG_PKGS_PREFIX }}/kernel:{{ .BUILD_ARG_PKGS }}"
     platform: linux/arm64
-    from: /dtb/rockchip/rk3328-orangepi-5.dtb
-    to: /rootfs/artifacts/arm64/dtb/rockchip/rk3328-orangepi-5.dtb
+    # TODO: wen orange pi 5 is released, update the dtb path.
+    #from: /dtb/rockchip/rk3588s-orangepi-5.dtb
+    from: /dtb/rockchip/rk3588-rock-5b.dtb
+    to: /rootfs/artifacts/arm64/dtb/rockchip/rk3588s-orangepi-5.dtb
   - image: "{{ .BUILD_ARG_PKGS_PREFIX }}/kernel:{{ .BUILD_ARG_PKGS }}"
     platform: linux/arm64
     from: /dtb/rockchip/rk3328-orangepi-r1-plus-lts.dtb

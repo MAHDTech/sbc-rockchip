@@ -9,22 +9,26 @@ steps:
         destination: arm-trusted-firmware.tar.gz
         sha256: "{{ .arm_trusted_firmware_sha256 }}"
         sha512: "{{ .arm_trusted_firmware_sha512 }}"
+      # https://review.trustedfirmware.org/q/topic:%22rockchip-rk3588%22
+      # https://review.trustedfirmware.org/c/TF-A/trusted-firmware-a/+/21840
+      #- url: https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/snapshot/{{ .arm_trusted_firmware_rk3588_ref }}.tar.gz
+      #- url: https://git.trustedfirmware.org/plugins/gitiles/TF-A/trusted-firmware-a/+archive/{{ .arm_trusted_firmware_rk3588_ref }}.tar.gz
+      #  destination: arm-trusted-firmware-rk3588.tar.gz
+      #  sha256: "{{ .arm_trusted_firmware_rk3588_sha256 }}"
+      #  sha512: "{{ .arm_trusted_firmware_rk3588_sha512 }}"
     env:
-      SOURCE_DATE_EPOCH: {{ .BUILD_ARG_SOURCE_DATE_EPOCH }}
+      SOURCE_DATE_EPOCH: "{{ .BUILD_ARG_SOURCE_DATE_EPOCH }}"
     prepare:
       - |
         mkdir -p /usr/bin \
           && ln -sf /toolchain/bin/env /usr/bin/env
 
         tar xf arm-trusted-firmware.tar.gz --strip-components=1
-
-        patch -p0 < /pkg/patches/platform.mk.patch
     # rk3588
+    # https://github.com/ARM-software/arm-trusted-firmware/blob/master/docs/plat/rockchip.rst
     build:
       - |
         make realclean
-        mkdir -p $(pwd)/build/rk3588/release/
-        cp -r /pkg/m0 $(pwd)/build/rk3588/release/
 
         # https://salsa.debian.org/debian/arm-trusted-firmware/-/commit/6424a59e08585af7f8a56f1e16ecc6a6b9e4ad7a
         # https://salsa.debian.org/debian/arm-trusted-firmware/-/commit/6ed8f61df3b07bb22a68a0fc189ec3b3f7b00dbd
@@ -33,7 +37,6 @@ steps:
     install:
       - |
         mkdir -p /rootfs/arm-trusted-firmware/rk3588
-
         cp build/rk3588/release/bl31/bl31.elf /rootfs/arm-trusted-firmware/rk3588/bl31.elf
 finalize:
   - from: /rootfs
