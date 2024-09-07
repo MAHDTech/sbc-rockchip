@@ -45,11 +45,16 @@ dependencies:
     platform: linux/arm64
     from: /dtb/rockchip/rk3399-nanopi-r4s.dtb
     to: /rootfs/artifacts/arm64/dtb/rockchip/rk3399-nanopi-r4s.dtb
-  # TODO: Pull device tree binary from mainline image when available (v6.8.9).
-  #- image: "{{ .BUILD_ARG_PKGS_PREFIX }}/kernel:{{ .BUILD_ARG_PKGS }}"
-  #  platform: linux/arm64
-  #  from: /dtb/rockchip/rk3588s-orangepi-5.dtb
-  #  to: /rootfs/artifacts/arm64/dtb/rockchip/rk3588s-orangepi-5.dtb
+    ##################################################
+    # TODO:
+    #   Pull device tree binary from mainline image when available (v6.8.9).
+    #   For now, this only works with a custom kernel passed in via build args.
+  - image: "{{ .BUILD_ARG_PKGS_PREFIX }}/kernel:{{ .BUILD_ARG_PKGS }}"
+    platform: linux/arm64
+    from: /dtb/rockchip/rk3588s-orangepi-5.dtb
+    to: /rootfs/artifacts/arm64/dtb/rockchip/rk3588s-orangepi-5.dtb
+    #
+    ###################################################
   - image: "{{ .BUILD_ARG_PKGS_PREFIX }}/kernel:{{ .BUILD_ARG_PKGS }}"
     platform: linux/arm64
     from: /dtb/rockchip/rk3328-orangepi-r1-plus-lts.dtb
